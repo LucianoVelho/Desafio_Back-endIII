@@ -1,10 +1,13 @@
-package desafio.modulo.pedido.model;
+package desafio.desafio.modulo.pedido.model;
+
+import desafio.desafio.modulo.itensproduto.model.ItemPedido;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -16,31 +19,37 @@ public class Pedido implements Serializable {
     @Column(name = "id", updatable = false, unique = true, nullable = false)
     private UUID id;
 
-    @NotNull @NotEmpty @Size(max = 50)
-    @Column(name = "nome")
-    private String nome;
-
-    @NotNull @NotEmpty @Size(max = 100)
-    @Column(name = "descricao")
-    private String descricao;
-
-    @NotNull @NotEmpty
+    @NotNull
+    @NotEmpty
     @Column(name = "estado")
     private boolean estado;
 
     @NotNull @NotEmpty
-    @Column(name = "valor")
-    private double valor;
+    @Column(name = "valor_pedido")
+    private double valorPedido;
+
+    @NotNull @NotEmpty
+    @Column(name = "valor_servico")
+    private double valorServico;
+
+    @NotNull @NotEmpty
+    @Column(name = "total")
+    private double total;
+
+    @NotNull @NotEmpty
+    @OneToMany(cascade = CascadeType.PERSIST)
+    private List<ItemPedido> itensPedido = new ArrayList<>();
 
     public Pedido() {
     }
 
-    public Pedido(UUID id, @NotNull @NotEmpty @Size(max = 50) String nome, @NotNull @NotEmpty @Size(max = 100) String descricao, @NotNull @NotEmpty boolean estado, @NotNull @NotEmpty double valor) {
+    public Pedido(UUID id, @NotNull @NotEmpty boolean estado, @NotNull @NotEmpty double valorPedido, @NotNull @NotEmpty double valorServico, @NotNull @NotEmpty double total, @NotNull @NotEmpty List<ItemPedido> itensPedido) {
         this.id = id;
-        this.nome = nome;
-        this.descricao = descricao;
         this.estado = estado;
-        this.valor = valor;
+        this.valorPedido = valorPedido;
+        this.valorServico = valorServico;
+        this.total = total;
+        this.itensPedido = itensPedido;
     }
 
     public UUID getId() {
@@ -51,22 +60,6 @@ public class Pedido implements Serializable {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
     public boolean isEstado() {
         return estado;
     }
@@ -75,11 +68,35 @@ public class Pedido implements Serializable {
         this.estado = estado;
     }
 
-    public double getValor() {
-        return valor;
+    public double getValorPedido() {
+        return valorPedido;
     }
 
-    public void setValor(double valor) {
-        this.valor = valor;
+    public void setValorPedido(double valorPedido) {
+        this.valorPedido = valorPedido;
+    }
+
+    public double getValorServico() {
+        return valorServico;
+    }
+
+    public void setValorServico(double valorServico) {
+        this.valorServico = valorServico;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
+
+    public List<ItemPedido> getItensPedido() {
+        return itensPedido;
+    }
+
+    public void setItensPedido(List<ItemPedido> itensPedido) {
+        this.itensPedido = itensPedido;
     }
 }
