@@ -1,7 +1,5 @@
 package desafio.desafio.modulo.servicoproduto.model;
 
-import desafio.desafio.modulo.itensproduto.model.ItemPedido;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -28,27 +26,23 @@ public class ServicoProduto implements Serializable {
     @Column(name = "descricao")
     private String descricao;
 
-    @NotNull @NotEmpty
+    @NotNull
     @Column(name = "estado")
     private boolean estado;
 
-    @NotNull @NotEmpty
+    @NotNull
     @Column(name = "valor")
     private double valor;
-
-    @OneToOne
-    private ItemPedido itemPedido;
 
     public ServicoProduto() {
     }
 
-    public ServicoProduto(UUID id, @NotNull @NotEmpty @Size(max = 50) String nome, @NotNull @NotEmpty @Size(max = 100) String descricao, @NotNull @NotEmpty boolean estado, @NotNull @NotEmpty double valor, ItemPedido itemPedido) {
+    public ServicoProduto(UUID id, @NotNull @NotEmpty @Size(max = 50) String nome, @NotNull @NotEmpty @Size(max = 100) String descricao, @NotNull @NotEmpty boolean estado, @NotNull @NotEmpty double valor) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
         this.estado = estado;
         this.valor = valor;
-        this.itemPedido = itemPedido;
     }
 
     public UUID getId() {
@@ -91,11 +85,4 @@ public class ServicoProduto implements Serializable {
         this.valor = valor;
     }
 
-    public ItemPedido getItemPedido() {
-        return itemPedido;
-    }
-
-    public void setItemPedido(ItemPedido itemPedido) {
-        this.itemPedido = itemPedido;
-    }
 }

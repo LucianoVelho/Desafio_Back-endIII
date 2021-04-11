@@ -1,10 +1,11 @@
 package desafio.desafio.modulo.itensproduto.repository;
 
-import desafio.desafio.modulo.itensproduto.model.ItemPedido;
-import org.springframework.data.repository.CrudRepository;
+import desafio.desafio.modulo.itensproduto.model.ItemProduto;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.UUID;
 
-public interface itensProdutoRepository extends CrudRepository<ItemPedido, UUID> {
+public interface ItensProdutoRepository extends PagingAndSortingRepository<ItemProduto, UUID> {
 
+    ItemProduto getById(UUID id);
 }

@@ -3,8 +3,6 @@ package desafio.desafio.modulo.itensproduto.model;
 import desafio.desafio.modulo.pedido.model.Pedido;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +11,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "item_pedido")
-public class ItemPedido implements Serializable {
+public class ItemProduto implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,11 +21,11 @@ public class ItemPedido implements Serializable {
     @OneToMany(cascade = CascadeType.PERSIST)
     private List<Pedido> itensPedido = new ArrayList<>();
 
-    public ItemPedido() {
+    public ItemProduto() {
 
     }
 
-    public ItemPedido(UUID id, List<Pedido> itensPedido) {
+    public ItemProduto(UUID id, List<Pedido> itensPedido) {
         this.id = id;
         this.itensPedido = itensPedido;
     }
