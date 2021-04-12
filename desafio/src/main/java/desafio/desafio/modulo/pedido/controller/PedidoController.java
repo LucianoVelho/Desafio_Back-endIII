@@ -34,6 +34,13 @@ public class PedidoController {
         return new ResponseEntity<>(pedidoService.editaPedido(pedido), HttpStatus.OK);
     }
 
+    @DeleteMapping(value = "/pedido/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> desativaPedido (
+            @PathVariable(value = "id", required = false) UUID id) throws Exception {
+        pedidoService.deletaPedido(id);
+        return new ResponseEntity<>( HttpStatus.OK);
+    }
+
     @GetMapping(value = "/pedido", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> resgataPedidos ()  {
         return new ResponseEntity<>( pedidoService.resgastaPedidos(),HttpStatus.OK);

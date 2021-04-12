@@ -9,4 +9,5 @@ import java.util.UUID;
 public interface PedidoRepository extends PagingAndSortingRepository<Pedido, UUID> {
 
     Pedido getById(UUID id);
+
 }

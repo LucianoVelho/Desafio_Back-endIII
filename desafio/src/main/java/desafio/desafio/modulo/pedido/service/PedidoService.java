@@ -47,6 +47,12 @@ public class PedidoService {
         return pedidoRepository.getById(id);
     }
 
+    public void deletaPedido(UUID id){
+        Pedido p =pedidoRepository.getById(id);
+        if(p.isEstado() == false)
+            pedidoRepository.delete(p);
+    }
+
     public Page<Pedido> paginacaoPedido(Pageable pageable){
         Page<Pedido> pedidos = pedidoRepository.findAll(pageable);
         return pedidos;
