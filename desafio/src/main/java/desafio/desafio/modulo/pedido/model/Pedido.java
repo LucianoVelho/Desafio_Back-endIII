@@ -3,11 +3,8 @@ package desafio.desafio.modulo.pedido.model;
 import desafio.desafio.modulo.itensproduto.model.ItemProduto;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -36,19 +33,19 @@ public class Pedido implements Serializable {
     private double total;
 
     @NotNull
-    @OneToMany(cascade = CascadeType.PERSIST)
-    private List<ItemProduto> itensPedido = new ArrayList<>();
+    @OneToOne(cascade = CascadeType.PERSIST)
+    private ItemProduto itemPedido ;
 
     public Pedido() {
     }
 
-    public Pedido(UUID id, @NotNull @NotEmpty boolean estado, @NotNull @NotEmpty double valorPedido, @NotNull @NotEmpty double valorServico, @NotNull @NotEmpty double total, @NotNull @NotEmpty List<ItemProduto> itensPedido) {
+    public Pedido(UUID id, @NotNull boolean estado, @NotNull double valorPedido, @NotNull double valorServico, @NotNull double total, @NotNull ItemProduto itemPedido) {
         this.id = id;
         this.estado = estado;
         this.valorPedido = valorPedido;
         this.valorServico = valorServico;
         this.total = total;
-        this.itensPedido = itensPedido;
+        this.itemPedido = itemPedido;
     }
 
     public UUID getId() {
@@ -91,11 +88,11 @@ public class Pedido implements Serializable {
         this.total = total;
     }
 
-    public List<ItemProduto> getItensPedido() {
-        return itensPedido;
+    public ItemProduto getItemPedido() {
+        return itemPedido;
     }
 
-    public void setItensPedido(List<ItemProduto> itensPedido) {
-        this.itensPedido = itensPedido;
+    public void setItemPedido(ItemProduto itemPedido) {
+        this.itemPedido = itemPedido;
     }
 }

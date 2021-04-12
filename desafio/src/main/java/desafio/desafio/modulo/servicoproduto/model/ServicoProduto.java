@@ -31,17 +31,23 @@ public class ServicoProduto implements Serializable {
     private boolean estado;
 
     @NotNull
+    @Column(name = "tipo")
+    @Enumerated(EnumType.STRING)
+    private Tipo tipo;
+
+    @NotNull
     @Column(name = "valor")
     private double valor;
 
     public ServicoProduto() {
     }
 
-    public ServicoProduto(UUID id, @NotNull @NotEmpty @Size(max = 50) String nome, @NotNull @NotEmpty @Size(max = 100) String descricao, @NotNull @NotEmpty boolean estado, @NotNull @NotEmpty double valor) {
+    public ServicoProduto(UUID id, @NotNull @NotEmpty @Size(max = 50) String nome, @NotNull @NotEmpty @Size(max = 100) String descricao, @NotNull boolean estado, @NotNull Tipo tipo, @NotNull double valor) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
         this.estado = estado;
+        this.tipo = tipo;
         this.valor = valor;
     }
 
@@ -85,4 +91,11 @@ public class ServicoProduto implements Serializable {
         this.valor = valor;
     }
 
+    public Tipo getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(Tipo tipo) {
+        this.tipo = tipo;
+    }
 }

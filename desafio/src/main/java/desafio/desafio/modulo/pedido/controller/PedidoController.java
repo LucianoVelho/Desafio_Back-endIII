@@ -24,6 +24,11 @@ public class PedidoController {
         return new ResponseEntity<>(pedidoService.cadastraPedido(pedido), HttpStatus.OK);
     }
 
+    @PostMapping(value = "/pedido/desconto/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> cadastraPedido (@PathVariable(value = "id", required = false) UUID id)  {
+        return new ResponseEntity<>(pedidoService.desconto(id), HttpStatus.OK);
+    }
+
     @PutMapping(value = "/pedido", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> editaPedido (@RequestBody Pedido pedido) {
         return new ResponseEntity<>(pedidoService.editaPedido(pedido), HttpStatus.OK);
