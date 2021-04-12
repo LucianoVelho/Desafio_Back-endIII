@@ -4,6 +4,7 @@ import desafio.desafio.modulo.itensproduto.model.ItemProduto;
 import desafio.desafio.modulo.pedido.model.Pedido;
 import desafio.desafio.modulo.pedido.repository.PedidoRepository;
 import desafio.desafio.modulo.servicoproduto.model.ServicoProduto;
+import desafio.desafio.modulo.servicoproduto.model.Tipo;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
@@ -22,6 +23,15 @@ public class PedidoService {
     PedidoRepository pedidoRepository;
 
     public Pedido cadastraPedido(Pedido pedido){
+
+        for (ServicoProduto s :pedido.getItemPedido().getItensPedido()){
+            if (Tipo.SERVICO == s.getTipo()){
+                pedido.setValorServico(pedido.getValorServico() + s.getValor());
+            }else {
+                pedido.setValorPedido(pedido.getValorPedido() + s.getValor());
+            }
+        }
+        pedido.setTotal(pedido.getValorPedido() + pedido.getValorServico());
         return pedidoRepository.save(pedido);
     }
 
@@ -39,7 +49,12 @@ public class PedidoService {
 
     public Page<Pedido> paginacaoPedido(Pageable pageable){
         Page<Pedido> pedidos = pedidoRepository.findAll(pageable);
-        return null;
+        return pedidos;
+    }
+    public void fecharPedido(UUID id){
+        Pedido pedido = pedidoRepository.getById(id);
+        pedido.setEstado(false);
+        pedidoRepository.save(pedido);
     }
 
     public Pedido desconto(UUID id){
@@ -47,6 +62,7 @@ public class PedidoService {
         if (pedido.isEstado() == false)
            throw new DataIntegrityViolationException("O pedido se encontra fechado");
         pedido.setValorPedido(pedido.getValorPedido() - (pedido.getValorPedido()*0.1));
+        pedido.setTotal(pedido.getValorPedido() + pedido.getValorServico());
         return pedidoRepository.save(pedido);
     }
 }
