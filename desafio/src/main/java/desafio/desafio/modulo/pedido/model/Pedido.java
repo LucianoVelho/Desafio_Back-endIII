@@ -1,10 +1,12 @@
 package desafio.desafio.modulo.pedido.model;
 
 import desafio.desafio.modulo.itensproduto.model.ItemProduto;
+import desafio.desafio.modulo.servicoproduto.model.ServicoProduto;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -33,13 +35,21 @@ public class Pedido implements Serializable {
     private double total;
 
     @NotNull
-    @OneToOne(cascade = CascadeType.PERSIST)
-    private ItemProduto itemPedido ;
+    @ManyToMany
+    @JoinTable(
+            name = "servico_produto_pedido",
+            joinColumns = @JoinColumn(name = "item_pedido_id"),
+            inverseJoinColumns = @JoinColumn(name = "pedido_id"))
+    private List<ItemProduto> itemPedido ;
 
     public Pedido() {
+
     }
 
-    public Pedido(UUID id, @NotNull boolean estado, @NotNull double valorPedido, @NotNull double valorServico, @NotNull double total, @NotNull ItemProduto itemPedido) {
+    public Pedido(boolean b, List<ItemProduto> itemPedido) {
+    }
+
+    public Pedido(UUID id, @NotNull boolean estado, @NotNull double valorPedido, @NotNull double valorServico, @NotNull double total, @NotNull List<ItemProduto> itemPedido) {
         this.id = id;
         this.estado = estado;
         this.valorPedido = valorPedido;
@@ -88,11 +98,11 @@ public class Pedido implements Serializable {
         this.total = total;
     }
 
-    public ItemProduto getItemPedido() {
+    public List<ItemProduto> getItemPedido() {
         return itemPedido;
     }
 
-    public void setItemPedido(ItemProduto itemPedido) {
+    public void setItemPedido(List<ItemProduto> itemPedido) {
         this.itemPedido = itemPedido;
     }
 }

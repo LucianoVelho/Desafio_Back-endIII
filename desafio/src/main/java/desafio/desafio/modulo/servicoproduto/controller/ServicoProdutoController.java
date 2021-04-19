@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.UUID;
 
 @RestController
@@ -20,18 +21,18 @@ public class ServicoProdutoController {
 
     @PostMapping(value = "/servicoproduto", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> casdastraServicoProduto (
-            @RequestBody ServicoProduto servicoProduto) throws Exception {
+            @RequestBody @Valid ServicoProduto servicoProduto) throws Exception {
         return new ResponseEntity<>(servicoProdutoService.cadastraServicoProduto(servicoProduto), HttpStatus.OK);
     }
 
     @PutMapping(value = "/servicoproduto", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> editaServicoProduto (
-            @RequestBody ServicoProduto servicoProduto) throws Exception {
+            @RequestBody @Valid ServicoProduto servicoProduto) throws Exception {
         return new ResponseEntity<>(servicoProdutoService.editaServicoProduto(servicoProduto), HttpStatus.OK);
     }
-    @DeleteMapping(value = "/servicoproduto", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @DeleteMapping(value = "/servicoproduto/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> desativaServicoProduto (
-            @RequestParam(value = "id", required = false) UUID id) throws Exception {
+            @PathVariable(value = "id", required = false) UUID id) throws Exception {
         servicoProdutoService.desativaServicoProduto(id);
         return new ResponseEntity<>( HttpStatus.OK);
     }
@@ -39,6 +40,11 @@ public class ServicoProdutoController {
     @GetMapping(value = "/servicoproduto", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> resgataServicosProdutos () throws Exception {
         return new ResponseEntity<>(servicoProdutoService.resgataTodos(), HttpStatus.OK);
+    }
+    @GetMapping(value = "/servicoproduto/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> resgataServicoProdutoId (
+            @PathVariable(value = "id", required = false) UUID id) {
+        return new ResponseEntity<>(servicoProdutoService.resgataServicoPedidoId(id), HttpStatus.OK);
     }
 
     @GetMapping(value = "/servicoproduto/paginacao", produces = {MediaType.APPLICATION_JSON_VALUE})

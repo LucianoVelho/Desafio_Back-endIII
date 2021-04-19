@@ -11,4 +11,5 @@ import java.util.UUID;
 
 public interface ServicoProdutoRepository extends PagingAndSortingRepository<ServicoProduto, UUID> {
     ServicoProduto getById(UUID id);
+    List<ServicoProduto> findAllByOrderByIdAsc();
 }

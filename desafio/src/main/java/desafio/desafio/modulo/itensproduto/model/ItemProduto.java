@@ -4,6 +4,8 @@ import desafio.desafio.modulo.pedido.model.Pedido;
 import desafio.desafio.modulo.servicoproduto.model.ServicoProduto;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +21,20 @@ public class ItemProduto implements Serializable {
     @Column(name = "id", updatable = false, unique = true, nullable = false)
     private UUID id;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @NotNull
+    @NotEmpty
+    @ManyToMany
+    @JoinTable(
+            name = "servico_produto_item_pedido",
+            joinColumns = @JoinColumn(name = "servico_produto_id"),
+            inverseJoinColumns = @JoinColumn(name = "item_pedido_id"))
     private List<ServicoProduto> itensPedido = new ArrayList<>();
 
     public ItemProduto() {
+
+    }
+
+    public ItemProduto(Iterable<ServicoProduto> all) {
 
     }
 

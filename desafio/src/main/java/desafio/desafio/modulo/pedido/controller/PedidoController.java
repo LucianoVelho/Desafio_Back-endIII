@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.UUID;
 
 @RestController
@@ -20,17 +21,17 @@ public class PedidoController {
     PedidoService pedidoService;
 
     @PostMapping(value = "/pedido", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> cadastraPedido (@RequestBody Pedido pedido)  {
+    public ResponseEntity<?> cadastraPedido (@RequestBody @Valid Pedido pedido)  {
         return new ResponseEntity<>(pedidoService.cadastraPedido(pedido), HttpStatus.OK);
     }
 
     @PostMapping(value = "/pedido/desconto/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> cadastraPedido (@PathVariable(value = "id", required = false) UUID id)  {
+    public ResponseEntity<?> aplicaDescontoPedido (@PathVariable(value = "id", required = false) UUID id)  {
         return new ResponseEntity<>(pedidoService.desconto(id), HttpStatus.OK);
     }
 
     @PutMapping(value = "/pedido", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> editaPedido (@RequestBody Pedido pedido) {
+    public ResponseEntity<?> editaPedido (@RequestBody @Valid Pedido pedido) {
         return new ResponseEntity<>(pedidoService.editaPedido(pedido), HttpStatus.OK);
     }
 
@@ -46,7 +47,7 @@ public class PedidoController {
         return new ResponseEntity<>( pedidoService.resgastaPedidos(),HttpStatus.OK);
     }
     @GetMapping(value = "/pedido/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> desativaServicoProduto (
+    public ResponseEntity<?> ResgataPedidoId (
             @PathVariable(value = "id", required = false) UUID id) {
         return new ResponseEntity<>(pedidoService.resgataPedido(id), HttpStatus.OK);
     }

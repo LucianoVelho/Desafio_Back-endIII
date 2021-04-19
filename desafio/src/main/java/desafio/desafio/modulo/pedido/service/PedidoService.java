@@ -1,6 +1,7 @@
 package desafio.desafio.modulo.pedido.service;
 
 import desafio.desafio.modulo.itensproduto.model.ItemProduto;
+import desafio.desafio.modulo.itensproduto.repository.ItemProdutoRepository;
 import desafio.desafio.modulo.pedido.model.Pedido;
 import desafio.desafio.modulo.pedido.repository.PedidoRepository;
 import desafio.desafio.modulo.servicoproduto.model.ServicoProduto;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,15 +24,23 @@ public class PedidoService {
     @Autowired
     PedidoRepository pedidoRepository;
 
+    @Autowired
+    ItemProdutoRepository itemProdutoRepository;
+
     public Pedido cadastraPedido(Pedido pedido){
 
-        for (ServicoProduto s :pedido.getItemPedido().getItensPedido()){
-            if (Tipo.SERVICO == s.getTipo()){
-                pedido.setValorServico(pedido.getValorServico() + s.getValor());
-            }else {
-                pedido.setValorPedido(pedido.getValorPedido() + s.getValor());
+        List<ItemProduto> itemProduto = new ArrayList<>();
+        for(ItemProduto it : pedido.getItemPedido()) {
+            itemProduto.add(itemProdutoRepository.getById(it.getId()));
+            for (ServicoProduto s : itemProdutoRepository.getById(it.getId()).getItensPedido()) {
+                if (Tipo.SERVICO == s.getTipo()) {
+                    pedido.setValorServico(pedido.getValorServico() + s.getValor());
+                } else {
+                    pedido.setValorPedido(pedido.getValorPedido() + s.getValor());
+                }
             }
         }
+        pedido.setItemPedido(itemProduto);
         pedido.setTotal(pedido.getValorPedido() + pedido.getValorServico());
         return pedidoRepository.save(pedido);
     }
