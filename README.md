@@ -37,4 +37,5 @@ As seguintes ferramentas foram usadas na construção do projeto:
 
 - [Spring boot](https://spring.io/projects/spring-boot)
 - [Postgresql](https://www.postgresql.org/)
-- [Gradle](https://gradle.org/install/)
+- [Maven](https://maven.apache.org/)
+- [JPA](https://spring.io/projects/spring-data-jpa)
