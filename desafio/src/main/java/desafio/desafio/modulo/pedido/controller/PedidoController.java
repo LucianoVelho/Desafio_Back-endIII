@@ -1,8 +1,10 @@
 package desafio.desafio.modulo.pedido.controller;
 
+import desafio.desafio.modulo.itensproduto.model.ItemProduto;
 import desafio.desafio.modulo.pedido.model.Pedido;
 import desafio.desafio.modulo.pedido.repository.PedidoRepository;
 import desafio.desafio.modulo.pedido.service.PedidoService;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -25,7 +27,7 @@ public class PedidoController {
         return new ResponseEntity<>(pedidoService.cadastraPedido(pedido), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/pedido/desconto/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PutMapping(value = "/pedido/desconto/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> aplicaDescontoPedido (@PathVariable(value = "id", required = false) UUID id)  {
         return new ResponseEntity<>(pedidoService.desconto(id), HttpStatus.OK);
     }
@@ -35,11 +37,17 @@ public class PedidoController {
         return new ResponseEntity<>(pedidoService.editaPedido(pedido), HttpStatus.OK);
     }
 
+    @PutMapping(value = "/pedido/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> fechaPedido (
+            @PathVariable(value = "id", required = false) UUID id )  {
+        return new ResponseEntity<>( pedidoService.fecharPedido(id), HttpStatus.OK);
+    }
+
     @DeleteMapping(value = "/pedido/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> desativaPedido (
-            @PathVariable(value = "id", required = false) UUID id) throws Exception {
-        pedidoService.deletaPedido(id);
-        return new ResponseEntity<>( HttpStatus.OK);
+    public ResponseEntity<?> deletaPedido (
+            @PathVariable(value = "id", required = false) UUID id) {
+        JSONObject js = pedidoService.deletaPedido(id);
+        return new ResponseEntity<>( js, HttpStatus.OK);
     }
 
     @GetMapping(value = "/pedido", produces = {MediaType.APPLICATION_JSON_VALUE})

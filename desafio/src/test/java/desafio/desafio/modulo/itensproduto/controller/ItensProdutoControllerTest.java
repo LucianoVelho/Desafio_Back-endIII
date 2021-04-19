@@ -96,7 +96,15 @@ class ItensProdutoControllerTest {
     }
 
     @Test
-    void desativaPedido() {
+    void desativaPedido() throws Exception {
+
+        UUID id = servicoProdutoRepository.findAllByOrderByIdAsc().get(0).getId();
+        URI uri = new URI("http://localhost:8080/api/itensproduto/"+id.toString());
+
+        mockMvc.perform(MockMvcRequestBuilders
+                .get(uri)
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(MockMvcResultMatchers.status().is(200));
 
     }
 

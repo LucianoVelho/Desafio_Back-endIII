@@ -59,10 +59,10 @@ class PedidoControllerTest {
 
         UUID idPedido  = pedidoRepository.findAllByOrderByIdAsc().get(0).getId();
 
-        URI uri = new URI("http://localhost:8080/api/pedido/"+idPedido.toString());
+        URI uri = new URI("http://localhost:8080/api/pedido/desconto/"+idPedido.toString());
 
         mockMvc.perform(MockMvcRequestBuilders
-                .post(uri)
+                .put(uri)
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(MockMvcResultMatchers.status().is(200));
     }
@@ -94,7 +94,14 @@ class PedidoControllerTest {
     }
 
     @Test
-    void desativaPedido() {
+    void desativaPedido() throws Exception {
+        UUID idPedido  = pedidoRepository.findAllByOrderByIdAsc().get(0).getId();
+
+        URI uri = new URI("http://localhost:8080/api/pedido/desconto/"+idPedido.toString());
+        mockMvc.perform(MockMvcRequestBuilders
+                .delete(uri)
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(MockMvcResultMatchers.status().is(200));
     }
 
     @Test

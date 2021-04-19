@@ -6,6 +6,8 @@ import desafio.desafio.modulo.pedido.model.Pedido;
 import desafio.desafio.modulo.pedido.repository.PedidoRepository;
 import desafio.desafio.modulo.servicoproduto.model.ServicoProduto;
 import desafio.desafio.modulo.servicoproduto.model.Tipo;
+import netscape.javascript.JSObject;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
@@ -57,20 +59,26 @@ public class PedidoService {
         return pedidoRepository.getById(id);
     }
 
-    public void deletaPedido(UUID id){
+    public JSONObject deletaPedido(UUID id){
+        JSONObject js = new JSONObject();
         Pedido p =pedidoRepository.getById(id);
-        if(p.isEstado() == false)
+        if(p.isEstado() == false){
             pedidoRepository.delete(p);
+            js.put("messagem","Pedido Deletado");
+        }else {
+           js.put("messagem","Para deletar este pedido deve se feichalo");
+        }
+        return js;
     }
 
     public Page<Pedido> paginacaoPedido(Pageable pageable){
         Page<Pedido> pedidos = pedidoRepository.findAll(pageable);
         return pedidos;
     }
-    public void fecharPedido(UUID id){
+    public Pedido fecharPedido(UUID id){
         Pedido pedido = pedidoRepository.getById(id);
         pedido.setEstado(false);
-        pedidoRepository.save(pedido);
+        return pedidoRepository.save(pedido);
     }
 
     public Pedido desconto(UUID id){

@@ -13,13 +13,13 @@ import java.util.Date;
 @ControllerAdvice
 public class AppExceptionHandler extends ResponseEntityExceptionHandler {
 
- /*   @ExceptionHandler(Exception.class)
+   @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleExceptions(Exception ex, WebRequest request) {
         String errordescription = ex.getLocalizedMessage();
         if(errordescription == null)
             errordescription = ex.toString();
         ErrorMessage errorMessage = new ErrorMessage(new Date(),errordescription);
-        return new ResponseEntity<>(ex,new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(ex,new HttpHeaders(), HttpStatus.BAD_REQUEST);
 
-    }*/
+    }
 }

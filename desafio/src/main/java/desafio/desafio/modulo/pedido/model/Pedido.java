@@ -4,6 +4,7 @@ import desafio.desafio.modulo.itensproduto.model.ItemProduto;
 import desafio.desafio.modulo.servicoproduto.model.ServicoProduto;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
@@ -34,10 +35,10 @@ public class Pedido implements Serializable {
     @Column(name = "total")
     private double total;
 
-    @NotNull
+    @NotNull @NotEmpty
     @ManyToMany
     @JoinTable(
-            name = "servico_produto_pedido",
+            name = "item_pedido_pedido",
             joinColumns = @JoinColumn(name = "item_pedido_id"),
             inverseJoinColumns = @JoinColumn(name = "pedido_id"))
     private List<ItemProduto> itemPedido ;
