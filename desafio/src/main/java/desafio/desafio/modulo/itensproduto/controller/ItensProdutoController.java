@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.UUID;
 
 @RestController
@@ -21,14 +22,26 @@ public class ItensProdutoController {
 
     @PostMapping(value = "/itensproduto", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> casdastraItensProduto (
-            @RequestBody ItemProduto itemProduto ) throws Exception {
+            @RequestBody @Valid ItemProduto itemProduto ) throws Exception {
         return new ResponseEntity<>(itensProdutoService.cadastraItensProduto(itemProduto), HttpStatus.OK);
     }
 
     @PutMapping(value = "/itensproduto", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> editaItensProduto (
-            @RequestBody ItemProduto itemProduto ) throws Exception {
+            @RequestBody @Valid ItemProduto itemProduto ) throws Exception {
         return new ResponseEntity<>(itensProdutoService.editaItemPedido(itemProduto), HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "/itensproduto/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> desativaPedido (
+            @PathVariable(value = "id", required = false) UUID id) {
+        return new ResponseEntity<>( itensProdutoService.deletaItensPedido(id),HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/itensproduto/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> resgataItensProdutoId (
+            @PathVariable(value = "id", required = false) UUID id) {
+        return new ResponseEntity<>( itensProdutoService.resgataItemPedidoId(id),HttpStatus.OK);
     }
 
     @GetMapping(value = "/itensproduto", produces = {MediaType.APPLICATION_JSON_VALUE})

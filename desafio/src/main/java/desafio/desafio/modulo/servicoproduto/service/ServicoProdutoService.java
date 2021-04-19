@@ -1,14 +1,13 @@
 package desafio.desafio.modulo.servicoproduto.service;
 
-import desafio.desafio.exceptions.ErrorMessage;
 import desafio.desafio.modulo.servicoproduto.model.ServicoProduto;
+import desafio.desafio.modulo.servicoproduto.model.Tipo;
 import desafio.desafio.modulo.servicoproduto.repository.ServicoProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -41,7 +40,11 @@ public class ServicoProdutoService {
         return (List<ServicoProduto>) servicoProdutoRepository.findAll();
     }
 
+    public ServicoProduto resgataServicoPedidoId(UUID id){
+        return servicoProdutoRepository.getById(id);
+    }
     public Page<ServicoProduto> paginacaoServivoProduto(Pageable pageable){
         return servicoProdutoRepository.findAll(pageable);
     }
+
 }

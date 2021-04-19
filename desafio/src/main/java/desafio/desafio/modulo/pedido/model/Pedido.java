@@ -1,12 +1,12 @@
 package desafio.desafio.modulo.pedido.model;
 
 import desafio.desafio.modulo.itensproduto.model.ItemProduto;
+import desafio.desafio.modulo.servicoproduto.model.ServicoProduto;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,20 +35,28 @@ public class Pedido implements Serializable {
     @Column(name = "total")
     private double total;
 
-    @NotNull
-    @OneToMany(cascade = CascadeType.PERSIST)
-    private List<ItemProduto> itensPedido = new ArrayList<>();
+    @NotNull @NotEmpty
+    @ManyToMany
+    @JoinTable(
+            name = "item_pedido_pedido",
+            joinColumns = @JoinColumn(name = "item_pedido_id"),
+            inverseJoinColumns = @JoinColumn(name = "pedido_id"))
+    private List<ItemProduto> itemPedido ;
 
     public Pedido() {
+
     }
 
-    public Pedido(UUID id, @NotNull @NotEmpty boolean estado, @NotNull @NotEmpty double valorPedido, @NotNull @NotEmpty double valorServico, @NotNull @NotEmpty double total, @NotNull @NotEmpty List<ItemProduto> itensPedido) {
+    public Pedido(boolean b, List<ItemProduto> itemPedido) {
+    }
+
+    public Pedido(UUID id, @NotNull boolean estado, @NotNull double valorPedido, @NotNull double valorServico, @NotNull double total, @NotNull List<ItemProduto> itemPedido) {
         this.id = id;
         this.estado = estado;
         this.valorPedido = valorPedido;
         this.valorServico = valorServico;
         this.total = total;
-        this.itensPedido = itensPedido;
+        this.itemPedido = itemPedido;
     }
 
     public UUID getId() {
@@ -91,11 +99,11 @@ public class Pedido implements Serializable {
         this.total = total;
     }
 
-    public List<ItemProduto> getItensPedido() {
-        return itensPedido;
+    public List<ItemProduto> getItemPedido() {
+        return itemPedido;
     }
 
-    public void setItensPedido(List<ItemProduto> itensPedido) {
-        this.itensPedido = itensPedido;
+    public void setItemPedido(List<ItemProduto> itemPedido) {
+        this.itemPedido = itemPedido;
     }
 }
